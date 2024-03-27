@@ -1,0 +1,8 @@
+#Exports for assignments
+*.zip
+
+#Temp Python Folders
+*.idea/
+
+#Solution Files
+*.puzzle*
