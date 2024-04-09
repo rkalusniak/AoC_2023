@@ -9,7 +9,7 @@ import numpy as np
 import math
 
 # Allow to run with test or actual file
-test = True
+test = False
 if test:
     data_file = 'input_test.txt'
 else:
@@ -127,20 +127,14 @@ for ls_num, value_num in diag_lslocation:
     match_cord_loc.append(tuple((math.floor(abs((diag_num[i]-1)/input_size)),(diag_num[i] % input_size))))
     i += 1
 
-print(match_cord_loc)
-
 # Find the number at the coordinates
 for i in range(0, len(match_cord_loc)):
     row = match_cord_loc[i][0]
     column = match_cord_loc[i][1]
     input_str = ''.join(input_horizontal[row])
-    print(row, max(column-2,0))
-    print(input_str[6:])
 
     match_find_parts = re.findall(r'\d{2,3}', input_str[max(column-2, 0):])
-    if len(match_find_parts) == 0:
-        match_parts.append([])
-    else:
+    if len(match_find_parts) > 0:
         match_parts.append(match_find_parts[0])
 
 
