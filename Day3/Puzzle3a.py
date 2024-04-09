@@ -6,6 +6,7 @@ by: Rachel Kalusniak
 
 import re
 import numpy as np
+import math
 
 # Allow to run with test or actual file
 test = True
@@ -82,6 +83,7 @@ for input_strip in input_horizontal:
 
 match_parts = [val for sublist in match_parts for val in sublist]
 
+
 # Vertical Match
 match_vert = []
 i = 0
@@ -96,15 +98,51 @@ for input_strip in input_vertical:
     i += 1
 
 # Flatten list to include just matching coordinates
-match_vert_loc = [val for sublist in match_vert for val in sublist]
+match_cord_loc = [val for sublist in match_vert for val in sublist]
+
+
+# Diagonal Match
+match_diag = []
+diag_lslocation = []
+diag_num = []
+
+i = 0
+for input_strip in diag_ls[0]:
+    input_str = ''.join(input_strip)
+    #print(input_str)
+    match_diag.append([(i, m.start()-1) for m in d_start.finditer(input_str)])
+    match_diag.append([(i, m.end()-1) for m in d_end.finditer(input_str)])
+    i += 1
+
+# Flatten list to include just matches
+diag_lslocation = [val for sublist in match_diag for val in sublist]
+
+i = 0
+for ls_num, value_num in diag_lslocation:
+    diag_num.append(diag_ls[1][ls_num][value_num])
+    # print(diag_num[i])
+    # print(input_size)
+    # print(math.floor(abs((diag_num[i]-1)/input_size)))
+    # print(diag_num[i]% input_size)
+    match_cord_loc.append(tuple((math.floor(abs((diag_num[i]-1)/input_size)),(diag_num[i] % input_size))))
+    i += 1
+
+print(match_cord_loc)
 
 # Find the number at the coordinates
-for i in range(0, len(match_vert_loc)):
-    row = match_vert_loc[i][0]
-    column = match_vert_loc[i][1]
+for i in range(0, len(match_cord_loc)):
+    row = match_cord_loc[i][0]
+    column = match_cord_loc[i][1]
     input_str = ''.join(input_horizontal[row])
+    print(row, max(column-2,0))
+    print(input_str[6:])
 
-    match_parts.append(re.findall(r'\d{2,3}', input_str[column-2:])[0])
+    match_find_parts = re.findall(r'\d{2,3}', input_str[max(column-2, 0):])
+    if len(match_find_parts) == 0:
+        match_parts.append([])
+    else:
+        match_parts.append(match_find_parts[0])
+
 
 # for input_strip in input_horizontal:
 #     input_str = ''.join(input_strip)
