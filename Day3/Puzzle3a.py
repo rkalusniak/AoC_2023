@@ -5,12 +5,9 @@ by: Rachel Kalusniak
 """
 
 import re
-import numpy as np
-import math
-import pandas as pd
 
 # Allow to run with test or actual file
-test = True
+test = False
 if test:
     data_file = 'input_test.txt'
 else:
@@ -50,7 +47,7 @@ all_matches = []
 i = 0
 
 # Compile the pattern to match
-match_pattern = re.compile(r'\d{2,3}')
+match_pattern = re.compile(r'\d{1,3}')
 
 # Loop through lines to record start and end location of numbers
 for i in range(0, len(input)):
